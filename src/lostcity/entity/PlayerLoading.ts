@@ -38,9 +38,7 @@ export class PlayerLoading {
         const name37 = toBase37(name);
         const safeName = fromBase37(name37);
 
-        const player = client
-            ? new NetworkPlayer(safeName, name37, client)
-            : new Player(safeName, name37);
+        const player = client ? new NetworkPlayer(safeName, name37, client) : new Player(safeName, name37);
 
         if (!Environment.NODE_PRODUCTION) {
             player.staffModLevel = 3;

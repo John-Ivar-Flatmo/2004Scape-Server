@@ -30,10 +30,7 @@ export async function packWorldmap() {
         return;
     }
 
-    if (
-        !shouldBuildFileAny('data/pack/server/maps', 'data/pack/mapview/worldmap.jag') &&
-        !shouldBuildFile('src/lostcity/cache/packmap/Worldmap.ts', 'data/pack/mapview/worldmap.jag')
-    ) {
+    if (!shouldBuildFileAny('data/pack/server/maps', 'data/pack/mapview/worldmap.jag') && !shouldBuildFile('src/lostcity/cache/packmap/Worldmap.ts', 'data/pack/mapview/worldmap.jag')) {
         return;
     }
 
@@ -62,7 +59,10 @@ export async function packWorldmap() {
 
     const maps: string[] = fs.readdirSync('data/pack/server/maps').filter((x: string): boolean => x[0] === 'm');
     for (let index: number = 0; index < maps.length; index++) {
-        const [mx, mz] = maps[index].substring(1).split('_').map((x: string) => parseInt(x));
+        const [mx, mz] = maps[index]
+            .substring(1)
+            .split('_')
+            .map((x: string) => parseInt(x));
 
         // ----
 
@@ -184,7 +184,7 @@ export async function packWorldmap() {
             let coordOffset: number = locBuf.gsmart();
 
             while (coordOffset !== 0) {
-                const {x, z, level} = unpackCoord(coord += coordOffset - 1);
+                const { x, z, level } = unpackCoord((coord += coordOffset - 1));
 
                 const info: number = locBuf.g1();
                 coordOffset = locBuf.gsmart();
@@ -492,7 +492,7 @@ export async function packWorldmap() {
         [0x00b0a82d, 0x00a9974a], // debugname=desert_shadow overlay=true occlude=true rgb=0xc4ac4e
         [0x0080782f, 0x00886b4d], // debugname=duel_arena overlay=true occlude=true rgb=0xb79767
         [0x0080283c, 0x00b47a4e], // debugname=duelarena overlay=false occlude=true rgb=0xd9bb93
-        [0x00b06826, 0x0071673f], // debugname=hive overlay=true occlude=true rgb=0x97874f
+        [0x00b06826, 0x0071673f] // debugname=hive overlay=true occlude=true rgb=0x97874f
     ];
 
     for (let i = 0; i < FloType.configs.length; i++) {
@@ -530,8 +530,10 @@ export async function packWorldmap() {
     // ----
 
     const labels = Packet.alloc(1);
-    const labelsSrc = fs.readFileSync('data/src/maps/labels.txt', 'ascii')
-        .replace(/\r/g, '').split('\n')
+    const labelsSrc = fs
+        .readFileSync('data/src/maps/labels.txt', 'ascii')
+        .replace(/\r/g, '')
+        .split('\n')
         .filter((x: string) => x.startsWith('='))
         .map((x: string) => x.substring(1).split(','));
 

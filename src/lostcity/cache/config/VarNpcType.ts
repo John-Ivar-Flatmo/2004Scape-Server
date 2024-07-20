@@ -9,7 +9,6 @@ export default class VarNpcType extends ConfigType {
     private static configNames = new Map<string, number>();
     private static configs: VarNpcType[] = [];
 
-
     static load(dir: string) {
         if (!fs.existsSync(`${dir}/server/varn.dat`)) {
             console.log('Warning: No varn.dat found.');

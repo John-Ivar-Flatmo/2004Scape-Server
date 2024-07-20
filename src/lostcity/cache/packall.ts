@@ -60,7 +60,7 @@ export async function packClient() {
     await packClientTexture();
     packClientWordenc();
     packClientSound();
-    
+
     packClientMap();
     packClientMusic();
     console.timeEnd('Packing client cache (2/2)');

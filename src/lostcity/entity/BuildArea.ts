@@ -1,14 +1,14 @@
 import ZoneMap from '#lostcity/engine/zone/ZoneMap.js';
-import {Position} from '#lostcity/entity/Position.js';
+import { Position } from '#lostcity/entity/Position.js';
 import Player from '#lostcity/entity/Player.js';
 import World from '#lostcity/engine/World.js';
 import Npc from '#lostcity/entity/Npc.js';
 import Entity from '#lostcity/entity/Entity.js';
 
 export type ExtendedInfo = {
-    id: number,
-    added: boolean
-}
+    id: number;
+    added: boolean;
+};
 
 export default class BuildArea {
     public static readonly INTERVAL: number = 10;
@@ -116,7 +116,7 @@ export default class BuildArea {
             if (entity.x <= absLeftX || entity.x >= absRightX || entity.z >= absTopZ || entity.z <= absBottomZ) {
                 continue;
             }
-            if (!Position.isWithinDistanceSW({x, z}, entity, distance)) {
+            if (!Position.isWithinDistanceSW({ x, z }, entity, distance)) {
                 continue;
             }
             yield entity;
@@ -127,12 +127,12 @@ export default class BuildArea {
         return Array.from(zones.values())
             .map(zoneIndex => this.zoneToDistance(zoneIndex, zoneX, zoneZ))
             .sort((a, b) => a.distance - b.distance)
-            .map(({zoneIndex}) => zoneIndex);
+            .map(({ zoneIndex }) => zoneIndex);
     }
 
-    private zoneToDistance(zoneIndex: number, zoneX: number, zoneZ: number): {distance: number, zoneIndex: number} {
+    private zoneToDistance(zoneIndex: number, zoneX: number, zoneZ: number): { distance: number; zoneIndex: number } {
         const pos: Position = ZoneMap.unpackIndex(zoneIndex);
         const distance: number = Math.abs(pos.x - zoneX) + Math.abs(pos.z - zoneZ);
-        return {zoneIndex, distance};
+        return { zoneIndex, distance };
     }
 }

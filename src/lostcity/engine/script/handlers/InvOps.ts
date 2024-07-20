@@ -3,27 +3,18 @@ import ObjType from '#lostcity/cache/config/ObjType.js';
 import CategoryType from '#lostcity/cache/config/CategoryType.js';
 
 import World from '#lostcity/engine/World.js';
-import {Inventory} from '#lostcity/engine/Inventory.js';
+import { Inventory } from '#lostcity/engine/Inventory.js';
 
 import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
-import {CommandHandlers} from '#lostcity/engine/script/ScriptRunner.js';
-import {ActiveObj, ActivePlayer, checkedHandler, ProtectedActivePlayer} from '#lostcity/engine/script/ScriptPointer.js';
+import { CommandHandlers } from '#lostcity/engine/script/ScriptRunner.js';
+import { ActiveObj, ActivePlayer, checkedHandler, ProtectedActivePlayer } from '#lostcity/engine/script/ScriptPointer.js';
 
 import Obj from '#lostcity/entity/Obj.js';
-import {Position} from '#lostcity/entity/Position.js';
+import { Position } from '#lostcity/entity/Position.js';
 import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 import Player from '#lostcity/entity/Player.js';
 
-import {
-    CategoryTypeValid,
-    check,
-    CoordValid,
-    DurationValid,
-    InvTypeValid,
-    NumberNotNull,
-    ObjStackValid,
-    ObjTypeValid
-} from '#lostcity/engine/script/ScriptValidators.js';
+import { CategoryTypeValid, check, CoordValid, DurationValid, InvTypeValid, NumberNotNull, ObjStackValid, ObjTypeValid } from '#lostcity/engine/script/ScriptValidators.js';
 
 const InvOps: CommandHandlers = {
     // inv config
@@ -193,7 +184,7 @@ const InvOps: CommandHandlers = {
             for (let i = 0; i < completed; i++) {
                 const floorObj: Obj = new Obj(position.level, position.x, position.z, EntityLifeCycle.DESPAWN, obj.id, 1);
                 World.addObj(floorObj, player.pid, duration);
-    
+
                 state.activeObj = floorObj;
                 state.pointerAdd(ActiveObj[state.intOperand]);
             }
@@ -420,7 +411,6 @@ const InvOps: CommandHandlers = {
             // should be a stackable cert already!
             World.addObj(new Obj(player.level, player.x, player.z, EntityLifeCycle.DESPAWN, finalObj, overflow), player.pid, 200);
         }
-    
     }),
 
     // inv write
@@ -577,7 +567,6 @@ const InvOps: CommandHandlers = {
         const invType: InvType = check(inv, InvTypeValid);
         check(duration, DurationValid);
         const position: Position = check(coord, CoordValid);
-
 
         if (!state.pointerGet(ProtectedActivePlayer[state.intOperand]) && invType.protect && invType.scope !== InvType.SCOPE_SHARED) {
             throw new Error(`$inv requires protected access: ${invType.debugname}`);

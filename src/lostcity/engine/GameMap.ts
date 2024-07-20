@@ -13,11 +13,11 @@ import Npc from '#lostcity/entity/Npc.js';
 import Obj from '#lostcity/entity/Obj.js';
 import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 import Loc from '#lostcity/entity/Loc.js';
-import {Position} from '#lostcity/entity/Position.js';
+import { Position } from '#lostcity/entity/Position.js';
 
 import Environment from '#lostcity/util/Environment.js';
 
-import {LocAngle, LocLayer} from '@2004scape/rsmod-pathfinder';
+import { LocAngle, LocLayer } from '@2004scape/rsmod-pathfinder';
 import * as rsmod from '@2004scape/rsmod-pathfinder';
 
 export default class GameMap {
@@ -154,7 +154,7 @@ export default class GameMap {
 
     private decodeNpcs(packet: Packet, mapsquareX: number, mapsquareZ: number): void {
         while (packet.available > 0) {
-            const {x, z, level} = this.unpackCoord(packet.g2());
+            const { x, z, level } = this.unpackCoord(packet.g2());
             const absoluteX: number = mapsquareX + x;
             const absoluteZ: number = mapsquareZ + z;
             const count: number = packet.g1();
@@ -162,7 +162,7 @@ export default class GameMap {
                 const npcType: NpcType = NpcType.get(packet.g2());
                 const size: number = npcType.size;
                 const npc: Npc = new Npc(level, absoluteX, absoluteZ, size, size, EntityLifeCycle.RESPAWN, World.getNextNid(), npcType.id, npcType.moverestrict, npcType.blockwalk);
-                if (npcType.members && Environment.NODE_MEMBERS || !npcType.members) {
+                if ((npcType.members && Environment.NODE_MEMBERS) || !npcType.members) {
                     World.addNpc(npc, -1);
                 }
             }
@@ -171,14 +171,14 @@ export default class GameMap {
 
     private decodeObjs(packet: Packet, mapsquareX: number, mapsquareZ: number, zoneMap: ZoneMap): void {
         while (packet.available > 0) {
-            const {x, z, level} = this.unpackCoord(packet.g2());
+            const { x, z, level } = this.unpackCoord(packet.g2());
             const absoluteX: number = mapsquareX + x;
             const absoluteZ: number = mapsquareZ + z;
             const count: number = packet.g1();
             for (let j: number = 0; j < count; j++) {
                 const objType: ObjType = ObjType.get(packet.g2());
                 const obj: Obj = new Obj(level, absoluteX, absoluteZ, EntityLifeCycle.RESPAWN, objType.id, packet.g1());
-                if (objType.members && Environment.NODE_MEMBERS || !objType.members) {
+                if ((objType.members && Environment.NODE_MEMBERS) || !objType.members) {
                     zoneMap.zone(obj.x, obj.z, obj.level).addStaticObj(obj);
                 }
             }
@@ -214,7 +214,8 @@ export default class GameMap {
                 for (let z: number = 0; z < GameMap.Z; z++) {
                     const absoluteZ: number = z + mapsquareZ;
 
-                    if (x % 7 === 0 && z % 7 === 0) { // allocate per zone
+                    if (x % 7 === 0 && z % 7 === 0) {
+                        // allocate per zone
                         rsmod.allocateIfAbsent(absoluteX, absoluteZ, level);
                     }
 
@@ -250,7 +251,7 @@ export default class GameMap {
             let coordOffset: number = packet.gsmart();
 
             while (coordOffset !== 0) {
-                const {x, z, level} = this.unpackCoord(coord += coordOffset - 1);
+                const { x, z, level } = this.unpackCoord((coord += coordOffset - 1));
 
                 const info: number = packet.g1();
                 coordOffset = packet.gsmart();

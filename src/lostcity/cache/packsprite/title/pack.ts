@@ -5,9 +5,7 @@ import { shouldBuildFileAny } from '#lostcity/util/PackFile.js';
 import { convertImage } from '#lostcity/util/PixPack.js';
 
 export async function packClientTitle() {
-    if (!shouldBuildFileAny('data/src/binary', 'data/pack/client/title') &&
-        !shouldBuildFileAny('data/src/fonts', 'data/pack/client/title') &&
-        !shouldBuildFileAny('data/src/title', 'data/pack/client/title')) {
+    if (!shouldBuildFileAny('data/src/binary', 'data/pack/client/title') && !shouldBuildFileAny('data/src/fonts', 'data/pack/client/title') && !shouldBuildFileAny('data/src/title', 'data/pack/client/title')) {
         return;
     }
 

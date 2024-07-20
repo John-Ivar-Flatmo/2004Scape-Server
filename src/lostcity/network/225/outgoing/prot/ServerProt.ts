@@ -89,7 +89,10 @@ export default class ServerProt {
     static readonly UPDATE_ZONE_FULL_FOLLOWS = new ServerProt(135, 2); // NXT naming
     static readonly UPDATE_ZONE_PARTIAL_ENCLOSED = new ServerProt(162, -2); // NXT naming
 
-    constructor(readonly id: number, readonly length: number) {
+    constructor(
+        readonly id: number,
+        readonly length: number
+    ) {
         ServerProt.all.push(this); // no known index
         ServerProt.byId[id] = this;
     }

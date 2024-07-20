@@ -4,7 +4,11 @@ import ClientProtCategory from '#lostcity/network/incoming/prot/ClientProtCatego
 export default class IfPlayerDesign extends IncomingMessage {
     category = ClientProtCategory.USER_EVENT;
 
-    constructor(readonly gender: number, readonly idkit: number[], readonly color: number[]) {
+    constructor(
+        readonly gender: number,
+        readonly idkit: number[],
+        readonly color: number[]
+    ) {
         super();
     }
 }

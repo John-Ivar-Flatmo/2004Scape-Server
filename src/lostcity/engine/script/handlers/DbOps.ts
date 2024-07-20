@@ -5,7 +5,7 @@ import ScriptVarType from '#lostcity/cache/config/ScriptVarType.js';
 import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
 import { CommandHandlers } from '#lostcity/engine/script/ScriptRunner.js';
 
-import {check, DbRowTypeValid, DbTableTypeValid} from '#lostcity/engine/script/ScriptValidators.js';
+import { check, DbRowTypeValid, DbTableTypeValid } from '#lostcity/engine/script/ScriptValidators.js';
 
 const DebugOps: CommandHandlers = {
     [ScriptOpcode.DB_FIND_WITH_COUNT]: state => {

@@ -1,6 +1,6 @@
 import OutgoingMessage from '#lostcity/network/outgoing/OutgoingMessage.js';
 import ServerProtPriority from '#lostcity/network/outgoing/prot/ServerProtPriority.js';
-import {Position} from '#lostcity/entity/Position.js';
+import { Position } from '#lostcity/entity/Position.js';
 
 export default class RebuildNormal extends OutgoingMessage {
     priority = ServerProtPriority.HIGH;
@@ -23,7 +23,7 @@ export default class RebuildNormal extends OutgoingMessage {
             const mx: number = Position.mapsquare(x << 3);
             for (let z: number = minZ; z <= maxZ; z++) {
                 const mz: number = Position.mapsquare(z << 3);
-                result.add(mx << 8 | mz);
+                result.add((mx << 8) | mz);
             }
         }
         return result;

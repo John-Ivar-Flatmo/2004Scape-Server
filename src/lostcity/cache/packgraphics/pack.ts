@@ -133,7 +133,6 @@ export function packClientModel() {
             const p_delLength = new Uint8Array(delLength);
             data.gdata(p_delLength, 0, p_delLength.length);
 
-
             frame_head.pdata(p_headLength, 0, p_headLength.length);
             frame_tran1.pdata(p_tran1Length, 0, p_tran1Length.length);
             frame_tran2.pdata(p_tran2Length, 0, p_tran2Length.length);

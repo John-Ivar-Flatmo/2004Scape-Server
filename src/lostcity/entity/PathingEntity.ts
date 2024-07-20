@@ -10,19 +10,19 @@ import Player from '#lostcity/entity/Player.js';
 import NpcMode from '#lostcity/entity/NpcMode.js';
 import MoveRestrict from '#lostcity/entity/MoveRestrict.js';
 import MoveSpeed from '#lostcity/entity/MoveSpeed.js';
-import {Position} from '#lostcity/entity/Position.js';
+import { Position } from '#lostcity/entity/Position.js';
 import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 import MoveStrategy from '#lostcity/entity/MoveStrategy.js';
 
 import LocType from '#lostcity/cache/config/LocType.js';
 
 import * as rsmod from '@2004scape/rsmod-pathfinder';
-import {CollisionFlag, CollisionType} from '@2004scape/rsmod-pathfinder';
+import { CollisionFlag, CollisionType } from '@2004scape/rsmod-pathfinder';
 
 type TargetSubject = {
-    type: number,
+    type: number;
     com: number;
-}
+};
 
 export type TargetOp = ServerTriggerType | NpcMode;
 
@@ -58,7 +58,7 @@ export default abstract class PathingEntity extends Entity {
     repathed: boolean = false;
     target: Entity | null = null;
     targetOp: TargetOp = -1;
-    targetSubject: TargetSubject = {type: -1, com: -1};
+    targetSubject: TargetSubject = { type: -1, com: -1 };
     targetX: number = -1;
     targetZ: number = -1;
     apRange: number = 10;
@@ -87,19 +87,7 @@ export default abstract class PathingEntity extends Entity {
     graphicHeight: number = -1;
     graphicDelay: number = -1;
 
-    protected constructor(
-        level: number,
-        x: number,
-        z: number,
-        width: number,
-        length: number,
-        lifecycle: EntityLifeCycle,
-        moveRestrict: MoveRestrict,
-        blockWalk: BlockWalk,
-        moveStrategy: MoveStrategy,
-        coordmask: number,
-        entitymask: number
-    ) {
+    protected constructor(level: number, x: number, z: number, width: number, length: number, lifecycle: EntityLifeCycle, moveRestrict: MoveRestrict, blockWalk: BlockWalk, moveStrategy: MoveStrategy, coordmask: number, entitymask: number) {
         super(level, x, z, width, length, lifecycle);
         this.moveRestrict = moveRestrict;
         this.blockWalk = blockWalk;
@@ -469,7 +457,7 @@ export default abstract class PathingEntity extends Entity {
     setInteraction(interaction: Interaction, target: Entity, op: TargetOp, subject?: TargetSubject): void {
         this.target = target;
         this.targetOp = op;
-        this.targetSubject = subject ?? {type: -1, com: -1};
+        this.targetSubject = subject ?? { type: -1, com: -1 };
         this.targetX = target.x;
         this.targetZ = target.z;
         this.apRange = 10;
@@ -507,7 +495,7 @@ export default abstract class PathingEntity extends Entity {
     clearInteraction(): void {
         this.target = null;
         this.targetOp = -1;
-        this.targetSubject = {type: -1, com: -1};
+        this.targetSubject = { type: -1, com: -1 };
         this.targetX = -1;
         this.targetZ = -1;
         this.apRange = 10;
@@ -584,7 +572,7 @@ export default abstract class PathingEntity extends Entity {
         const srcX: number = this.x;
         const srcZ: number = this.z;
 
-        const {x, z} = Position.unpackCoord(this.waypoints[this.waypointIndex]);
+        const { x, z } = Position.unpackCoord(this.waypoints[this.waypointIndex]);
         const dir: number = Position.face(srcX, srcZ, x, z);
         const dx: number = Position.deltaX(dir);
         const dz: number = Position.deltaZ(dir);

@@ -4,7 +4,7 @@ import NpcType from '#lostcity/cache/config/NpcType.js';
 
 import World from '#lostcity/engine/World.js';
 
-import {Position} from '#lostcity/entity/Position.js';
+import { Position } from '#lostcity/entity/Position.js';
 import Loc from '#lostcity/entity/Loc.js';
 import HuntVis from '#lostcity/entity/hunt/HuntVis.js';
 import Npc from '#lostcity/entity/Npc.js';
@@ -51,21 +51,11 @@ export class HuntIterator extends ScriptIterator<Entity> {
     private readonly checkCategory: number;
     private readonly type: HuntModeType;
 
-    constructor(
-        tick: number,
-        level: number,
-        x: number,
-        z: number,
-        distance: number,
-        checkVis: HuntVis,
-        checkType: number,
-        checkCategory: number,
-        type: HuntModeType
-    ) {
+    constructor(tick: number, level: number, x: number, z: number, distance: number, checkVis: HuntVis, checkType: number, checkCategory: number, type: HuntModeType) {
         super(tick);
         const centerX: number = Position.zone(x);
         const centerZ: number = Position.zone(z);
-        const radius: number = (1 + (distance / 8)) | 0;
+        const radius: number = (1 + distance / 8) | 0;
         this.x = x;
         this.z = z;
         this.level = level;
@@ -196,11 +186,11 @@ export class NpcIterator extends ScriptIterator<Npc> {
     private readonly checkVis: HuntVis;
     private readonly type: NpcIteratorType;
 
-    constructor(tick: number, level: number, x: number, z: number,  distance: number, checkVis: HuntVis, type: NpcIteratorType) {
+    constructor(tick: number, level: number, x: number, z: number, distance: number, checkVis: HuntVis, type: NpcIteratorType) {
         super(tick);
         const centerX: number = Position.zone(x);
         const centerZ: number = Position.zone(z);
-        const radius: number = (1 + (distance / 8)) | 0;
+        const radius: number = (1 + distance / 8) | 0;
         this.x = x;
         this.z = z;
         this.level = level;

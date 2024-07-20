@@ -11,14 +11,14 @@ import ScriptState from '#lostcity/engine/script/ScriptState.js';
 import ServerTriggerType from '#lostcity/engine/script/ServerTriggerType.js';
 
 import BlockWalk from '#lostcity/entity/BlockWalk.js';
-import {EntityQueueRequest, NpcQueueType} from '#lostcity/entity/EntityQueueRequest.js';
+import { EntityQueueRequest, NpcQueueType } from '#lostcity/entity/EntityQueueRequest.js';
 import Loc from '#lostcity/entity/Loc.js';
 import MoveRestrict from '#lostcity/entity/MoveRestrict.js';
 import NpcMode from '#lostcity/entity/NpcMode.js';
 import Obj from '#lostcity/entity/Obj.js';
 import PathingEntity from '#lostcity/entity/PathingEntity.js';
 import Player from '#lostcity/entity/Player.js';
-import {Direction, Position} from '#lostcity/entity/Position.js';
+import { Direction, Position } from '#lostcity/entity/Position.js';
 import MoveStrategy from '#lostcity/entity/MoveStrategy.js';
 import HuntType from '#lostcity/cache/config/HuntType.js';
 import HuntModeType from '#lostcity/entity/hunt/HuntModeType.js';
@@ -27,7 +27,7 @@ import HuntCheckNotTooStrong from '#lostcity/entity/hunt/HuntCheckNotTooStrong.j
 import LinkList from '#jagex2/datastruct/LinkList.js';
 
 import ScriptVarType from '#lostcity/cache/config/ScriptVarType.js';
-import {HuntIterator} from '#lostcity/engine/script/ScriptIterators.js';
+import { HuntIterator } from '#lostcity/engine/script/ScriptIterators.js';
 import MoveSpeed from '#lostcity/entity/MoveSpeed.js';
 import Entity from '#lostcity/entity/Entity.js';
 import Interaction from '#lostcity/entity/Interaction.js';
@@ -35,7 +35,7 @@ import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 import NpcStat from '#lostcity/entity/NpcStat.js';
 
 import * as rsmod from '@2004scape/rsmod-pathfinder';
-import {CollisionFlag} from '@2004scape/rsmod-pathfinder';
+import { CollisionFlag } from '@2004scape/rsmod-pathfinder';
 import HuntNobodyNear from '#lostcity/entity/hunt/HuntNobodyNear.js';
 import SeqType from '#lostcity/cache/config/SeqType.js';
 
@@ -73,8 +73,8 @@ export default class Npc extends PathingEntity {
     huntrange: number = 5;
 
     nextPatrolTick: number = -1;
-    nextPatrolPoint : number = 0;
-    delayedPatrol : boolean = false;
+    nextPatrolPoint: number = 0;
+    delayedPatrol: boolean = false;
 
     heroPoints: {
         uid: number;
@@ -192,7 +192,7 @@ export default class Npc extends PathingEntity {
                     width: this.target.width,
                     length: this.target.length
                 });
-    
+
                 if (targetDistanceFromStart > type.maxrange && distanceToEscape > type.maxrange) {
                     return false;
                 }
@@ -207,12 +207,12 @@ export default class Npc extends PathingEntity {
                 // remove corner
                 if (distanceToX === type.maxrange + 1 && distanceToZ === type.maxrange + 1) {
                     this.defaultMode();
-                    return false; 
+                    return false;
                 }
             } else if (this.targetOp >= NpcMode.APPLAYER1 && this.targetOp <= NpcMode.APPLAYER5) {
-                if (Position.distanceToSW(this.target, {x: this.startX, z: this.startZ}) > type.maxrange + type.attackrange) {
+                if (Position.distanceToSW(this.target, { x: this.startX, z: this.startZ }) > type.maxrange + type.attackrange) {
                     this.defaultMode();
-                    return false;   
+                    return false;
                 }
             }
         }
@@ -396,17 +396,18 @@ export default class Npc extends PathingEntity {
         let dest = Position.unpackCoord(patrolPoints[this.nextPatrolPoint]);
 
         this.updateMovement(false);
-        if (!this.hasWaypoints() && !this.target) { // requeue waypoints in cases where an npc was interacting and the interaction has been cleared
+        if (!this.hasWaypoints() && !this.target) {
+            // requeue waypoints in cases where an npc was interacting and the interaction has been cleared
             this.queueWaypoint(dest.x, dest.z);
         }
-        if(!(this.x === dest.x && this.z === dest.z) && World.currentTick >= this.nextPatrolTick) {
+        if (!(this.x === dest.x && this.z === dest.z) && World.currentTick >= this.nextPatrolTick) {
             this.teleport(dest.x, dest.z, dest.level);
         }
-        if ((this.x === dest.x && this.z === dest.z) && !this.delayedPatrol) {
+        if (this.x === dest.x && this.z === dest.z && !this.delayedPatrol) {
             this.nextPatrolTick = World.currentTick + patrolDelay;
             this.delayedPatrol = true;
         }
-        if(this.nextPatrolTick > World.currentTick) {
+        if (this.nextPatrolTick > World.currentTick) {
             return;
         }
 
@@ -461,11 +462,13 @@ export default class Npc extends PathingEntity {
             return;
         }
 
-        const position: Position = {x: mx, z: mz, level: this.level};
-        if (Position.distanceToSW(position, {
-            x: this.startX,
-            z: this.startZ
-        }) < NpcType.get(this.type).maxrange) {
+        const position: Position = { x: mx, z: mz, level: this.level };
+        if (
+            Position.distanceToSW(position, {
+                x: this.startX,
+                z: this.startZ
+            }) < NpcType.get(this.type).maxrange
+        ) {
             this.queueWaypoint(position.x, position.z);
             this.updateMovement(false);
             return;
@@ -815,7 +818,7 @@ export default class Npc extends PathingEntity {
         const type: NpcType = NpcType.get(this.type);
         const players: Entity[] = [];
         const hunted: HuntIterator = new HuntIterator(World.currentTick, this.level, this.x, this.z, this.huntrange, hunt.checkVis, -1, -1, HuntModeType.PLAYER);
-        const opTrigger: boolean = (hunt.findNewMode >= NpcMode.OPPLAYER1 && hunt.findNewMode <= NpcMode.OPPLAYER5);
+        const opTrigger: boolean = hunt.findNewMode >= NpcMode.OPPLAYER1 && hunt.findNewMode <= NpcMode.OPPLAYER5;
 
         for (const player of hunted) {
             if (!(player instanceof Player)) {
@@ -833,7 +836,7 @@ export default class Npc extends PathingEntity {
                     continue;
                 }
             } else {
-                if (Position.distanceToSW(player, {x: this.startX, z: this.startZ}) > type.maxrange + type.attackrange)  {
+                if (Position.distanceToSW(player, { x: this.startX, z: this.startZ }) > type.maxrange + type.attackrange) {
                     continue;
                 }
             }

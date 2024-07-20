@@ -6,13 +6,13 @@ module.exports = {
     env: {
         browser: true,
         es2021: true,
-        node: true,
+        node: true
     },
     extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
     overrides: [
         {
             env: {
-                node: true,
+                node: true
             },
             files: ['.eslintrc.{js,cjs}'],
             parserOptions: {
@@ -30,7 +30,7 @@ module.exports = {
                 'vitest/require-top-level-describe': [
                     'error',
                     {
-                        'maxNumberOfTopLevelDescribes': 1
+                        maxNumberOfTopLevelDescribes: 1
                     }
                 ]
             }
@@ -82,20 +82,20 @@ module.exports = {
                  * There aren't many good reasons to have unused variables,
                  * but the codebase has 100s of them.
                  */
-                'vars': 'all',
-                'varsIgnorePattern': '^_',
+                vars: 'all',
+                varsIgnorePattern: '^_',
                 /**
-                * Allow parameters prefixed with underscores to skip this rule.
-                * This is a common practice for router methods with req and res parameters.
-                */
-                'args': 'all',
-                'argsIgnorePattern': '^_',
+                 * Allow parameters prefixed with underscores to skip this rule.
+                 * This is a common practice for router methods with req and res parameters.
+                 */
+                args: 'all',
+                argsIgnorePattern: '^_'
             }
         ],
 
         /**
          * https://github.com/sweepline/eslint-plugin-unused-imports
          */
-        'unused-imports/no-unused-imports': 'error',
+        'unused-imports/no-unused-imports': 'error'
     }
 };

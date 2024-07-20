@@ -1,5 +1,5 @@
 import ZoneMessage from '#lostcity/network/outgoing/ZoneMessage.js';
-import {Position} from '#lostcity/entity/Position.js';
+import { Position } from '#lostcity/entity/Position.js';
 
 export default class LocMerge extends ZoneMessage {
     constructor(

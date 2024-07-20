@@ -3,7 +3,7 @@ import Packet from '#jagex2/io/Packet.js';
 import Script from '#lostcity/engine/script/Script.js';
 import ServerTriggerType from '#lostcity/engine/script/ServerTriggerType.js';
 
-import {TargetOp} from '#lostcity/entity/PathingEntity.js';
+import { TargetOp } from '#lostcity/entity/PathingEntity.js';
 
 // maintains a list of scripts (id <-> name)
 export default class ScriptProvider {

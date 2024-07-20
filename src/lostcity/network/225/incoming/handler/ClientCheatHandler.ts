@@ -44,7 +44,7 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
             // developer commands
             if (cmd === 'reload' && typeof self === 'undefined' && !Environment.NODE_PRODUCTION) {
                 World.reload();
-    
+
                 // todo: we're probably reloading twice now, just to get count?
                 const count = ScriptProvider.load('data/pack');
                 player.messageGame(`Reloaded ${count} scripts.`);
@@ -77,11 +77,11 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
                 player.messageGame('Teleporting all players');
                 for (const player of World.players) {
                     player.closeModal();
-    
+
                     do {
                         const x = Math.floor(Math.random() * 64) + 3200;
                         const z = Math.floor(Math.random() * 64) + 3200;
-    
+
                         player.teleJump(x + Math.floor(Math.random() * 64) - 32, z + Math.floor(Math.random() * 64) - 32, 0);
                     } while (isFlagged(player.x, player.z, player.level, CollisionFlag.WALK_BLOCKED));
                 }
@@ -98,13 +98,13 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
                     player.messageGame('Usage: ::speed <ms>');
                     return false;
                 }
-    
+
                 const speed: number = tryParseInt(args.shift(), 20);
                 if (speed < 20) {
                     player.messageGame('::speed input was too low.');
                     return false;
                 }
-    
+
                 player.messageGame(`World speed was changed to ${speed}ms`);
                 World.tickRate = speed;
             } else if (cmd === 'fly') {
@@ -126,49 +126,49 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
                 if (args.length < 1) {
                     return false;
                 }
-    
+
                 // ::teleto <username>
                 const other = World.getPlayerByUsername(args[0]);
                 if (!other) {
                     player.messageGame(`${args[0]} is not logged in.`);
                     return false;
                 }
-    
+
                 player.teleJump(other.x, other.z, other.level);
             } else if (cmd === 'teleother') {
                 // would like this command to be in the admin command block, but we allow cheats on the live server currently
                 if (args.length < 1) {
                     return false;
                 }
-    
+
                 // ::teleother <username>
                 const other = World.getPlayerByUsername(args[0]);
                 if (!other) {
                     player.messageGame(`${args[0]} is not logged in.`);
                     return false;
                 }
-    
+
                 other.teleJump(player.x, player.z, player.level);
             } else if (cmd === 'setvarother') {
                 // would like this command to be in the admin command block, but we allow cheats on the live server currently
                 if (args.length < 3) {
                     return false;
                 }
-    
+
                 // ::setvarother <username> <name> <value>
                 const other = World.getPlayerByUsername(args[0]);
                 if (!other) {
                     player.messageGame(`${args[0]} is not logged in.`);
                     return false;
                 }
-    
+
                 const varp = VarPlayerType.getId(args[1]);
                 const value = Math.max(-0x80000000, Math.min(tryParseInt(args[2], 0), 0x7fffffff));
-    
+
                 if (varp === -1) {
                     return false;
                 }
-    
+
                 other.setVar(varp, value);
                 player.messageGame('set ' + args[1] + ': to ' + value + ' on ' + other.username);
             } else if (cmd === 'shutdown') {
@@ -217,12 +217,7 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
                     const lx = tryParseInt(coord[3], 0);
                     const lz = tryParseInt(coord[4], 0);
 
-                    if (level < 0 || level > 3 ||
-                        mx < 0 || mx > 255 ||
-                        mz < 0 || mz > 255 ||
-                        lx < 0 || lx > 63 ||
-                        lz < 0 || lz > 63
-                    ) {
+                    if (level < 0 || level > 3 || mx < 0 || mx > 255 || mz < 0 || mz > 255 || lx < 0 || lx > 63 || lz < 0 || lz > 63) {
                         return false;
                     }
 
@@ -260,13 +255,13 @@ export default class ClientCheatHandler extends MessageHandler<ClientCheat> {
                     player.messageGame('Usage: ::setxp <stat> <xp>');
                     return false;
                 }
-    
+
                 const stat = Player.SKILLS.indexOf(args[0]);
                 if (stat === -1) {
                     player.messageGame(`Unknown stat ${args[0]}`);
                     return false;
                 }
-    
+
                 const exp = parseInt(args[1]) * 10;
                 player.stats[stat] = exp;
             } else if (cmd === 'setstat') {

@@ -426,7 +426,7 @@ enum ScriptOpcode {
     MAP_LASTCLIENTOUT,
     MAP_LASTCLEANUP,
     MAP_LASTBANDWIDTHIN,
-    MAP_LASTBANDWIDTHOUT,
+    MAP_LASTBANDWIDTHOUT
 }
 
 export default ScriptOpcode;

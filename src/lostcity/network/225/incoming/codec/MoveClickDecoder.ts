@@ -16,9 +16,7 @@ export default class MoveClickDecoder extends MessageDecoder<MoveClick> {
         const offset: number = this.prot === ClientProt.MOVE_MINIMAPCLICK ? 14 : 0;
         const waypoints: number = (buf.available - offset) >> 1;
 
-        const path: { x: number, z: number}[] = [
-            { x: startX, z: startZ }
-        ];
+        const path: { x: number; z: number }[] = [{ x: startX, z: startZ }];
 
         for (let index: number = 1; index <= waypoints && index < 25; index++) {
             path.push({

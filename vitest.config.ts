@@ -10,8 +10,8 @@ const Configuration = defineConfig({
         // Prevent test cross-contamination when mocking implementations
         mockReset: true,
         // Files to run before tests
-        setupFiles: [ './vitest/mock-worker.ts' ]
-    },
+        setupFiles: ['./vitest/mock-worker.ts']
+    }
 });
 
 export default Configuration;

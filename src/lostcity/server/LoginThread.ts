@@ -7,7 +7,7 @@ import Packet from '#jagex2/io/Packet.js';
 
 import { toBase37, toSafeName } from '#jagex2/jstring/JString.js';
 
-import {LoginClient, LoginResponse} from '#lostcity/server/LoginServer.js';
+import { LoginClient, LoginResponse } from '#lostcity/server/LoginServer.js';
 
 import Environment from '#lostcity/util/Environment.js';
 

@@ -4,12 +4,7 @@ import zlib from 'zlib';
 import FileStream from '#jagex2/io/FileStream.js';
 import Jagfile from '#jagex2/io/Jagfile.js';
 
-import {
-    decodeFlo, decodeIdk, decodeLoc, decodeNpc,
-    decodeObj, decodeSeq, decodeSpotAnim, decodeVarbit, decodeVarp,
-    readJag, unpackConfig, unpackMedia, unpackTextures, unpackTitle,
-    unpackWordenc
-} from '#lostcity/util/CacheUnpack.js';
+import { decodeFlo, decodeIdk, decodeLoc, decodeNpc, decodeObj, decodeSeq, decodeSpotAnim, decodeVarbit, decodeVarp, readJag, unpackConfig, unpackMedia, unpackTextures, unpackTitle, unpackWordenc } from '#lostcity/util/CacheUnpack.js';
 // import Packet from '#jagex2/io/Packet.js';
 import AnimFrame from '#lostcity/cache/graphics/AnimFrame.js';
 // import AnimBase from '#lostcity/cache/graphics/AnimBase.js';

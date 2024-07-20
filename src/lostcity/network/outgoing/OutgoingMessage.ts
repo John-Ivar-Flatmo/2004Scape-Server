@@ -2,5 +2,5 @@ import ServerProtPriority from '#lostcity/network/outgoing/prot/ServerProtPriori
 import Hashable from '#jagex2/datastruct/Hashable.js';
 
 export default abstract class OutgoingMessage extends Hashable {
-    readonly abstract priority: ServerProtPriority;
+    abstract readonly priority: ServerProtPriority;
 }

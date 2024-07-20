@@ -4,7 +4,7 @@ import SpotanimType from '#lostcity/cache/config/SpotanimType.js';
 import World from '#lostcity/engine/World.js';
 
 import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
-import ScriptPointer, {ActivePlayer, checkedHandler, ProtectedActivePlayer} from '#lostcity/engine/script/ScriptPointer.js';
+import ScriptPointer, { ActivePlayer, checkedHandler, ProtectedActivePlayer } from '#lostcity/engine/script/ScriptPointer.js';
 import ScriptProvider from '#lostcity/engine/script/ScriptProvider.js';
 import { CommandHandlers } from '#lostcity/engine/script/ScriptRunner.js';
 import ScriptState from '#lostcity/engine/script/ScriptState.js';
@@ -334,13 +334,13 @@ const PlayerOps: CommandHandlers = {
             throw new Error(`Invalid opnpc: ${type + 1}`);
         }
         state.activePlayer.stopAction();
-        state.activePlayer.setInteraction(Interaction.SCRIPT, state.activeNpc, ServerTriggerType.APNPC1 + type, {type: state.activeNpc.type, com: -1});
+        state.activePlayer.setInteraction(Interaction.SCRIPT, state.activeNpc, ServerTriggerType.APNPC1 + type, { type: state.activeNpc.type, com: -1 });
     }),
 
     [ScriptOpcode.P_OPNPCT]: checkedHandler(ProtectedActivePlayer, state => {
         const spellId: number = check(state.popInt(), NumberNotNull);
         state.activePlayer.stopAction();
-        state.activePlayer.setInteraction(Interaction.SCRIPT, state.activeNpc, ServerTriggerType.APNPCT, {type: state.activeNpc.type, com: spellId});
+        state.activePlayer.setInteraction(Interaction.SCRIPT, state.activeNpc, ServerTriggerType.APNPCT, { type: state.activeNpc.type, com: spellId });
     }),
 
     [ScriptOpcode.P_PAUSEBUTTON]: checkedHandler(ProtectedActivePlayer, state => {
@@ -717,7 +717,7 @@ const PlayerOps: CommandHandlers = {
                 count++;
             }
         }
-        for (let request= state.activePlayer.weakQueue.head(); request !== null; request = state.activePlayer.weakQueue.next()) {
+        for (let request = state.activePlayer.weakQueue.head(); request !== null; request = state.activePlayer.weakQueue.next()) {
             if (request.script.id === scriptId) {
                 count++;
             }
@@ -887,7 +887,7 @@ const PlayerOps: CommandHandlers = {
         state.pushInt(state.activePlayer.lowMemory ? 1 : 0);
     },
 
-    [ScriptOpcode.SETIDKIT]: (state) => {
+    [ScriptOpcode.SETIDKIT]: state => {
         const [idkit, color] = state.popInts(2);
 
         const idkType: IdkType = check(idkit, IDKTypeValid);
@@ -904,7 +904,7 @@ const PlayerOps: CommandHandlers = {
         // 3 - boots
         // 4 - skin
         let type = idkType.type;
-        if(state.activePlayer.gender === 1) {
+        if (state.activePlayer.gender === 1) {
             type -= 7;
         }
         // console.log(type);
@@ -926,7 +926,7 @@ const PlayerOps: CommandHandlers = {
         }
     },
 
-    [ScriptOpcode.SETGENDER]: (state) => {
+    [ScriptOpcode.SETGENDER]: state => {
         const gender = check(state.popInt(), GenderValid);
         // convert idkit
         for (let i = 0; i < 7; i++) {
@@ -941,7 +941,7 @@ const PlayerOps: CommandHandlers = {
         state.activePlayer.gender = gender;
     },
 
-    [ScriptOpcode.SETSKINCOLOUR]: (state) => {
+    [ScriptOpcode.SETSKINCOLOUR]: state => {
         const skin = check(state.popInt(), SkinColourValid);
         state.activePlayer.colors[4] = skin;
     },
@@ -953,7 +953,7 @@ const PlayerOps: CommandHandlers = {
             return;
         }
         state.activePlayer.stopAction();
-        state.activePlayer.setInteraction(Interaction.SCRIPT, target, ServerTriggerType.APPLAYERT, {type: -1, com: spellId});
+        state.activePlayer.setInteraction(Interaction.SCRIPT, target, ServerTriggerType.APPLAYERT, { type: -1, com: spellId });
     }),
 
     [ScriptOpcode.FINDHERO]: checkedHandler(ActivePlayer, state => {
@@ -1002,7 +1002,7 @@ const PlayerOps: CommandHandlers = {
 
     [ScriptOpcode.LAST_COORD]: checkedHandler(ActivePlayer, state => {
         state.pushInt(Position.packCoord(state.activePlayer.level, state.activePlayer.lastX, state.activePlayer.lastZ));
-    }),
+    })
 };
 
 /**

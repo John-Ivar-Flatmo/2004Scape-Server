@@ -5,7 +5,7 @@ import ParamType from '#lostcity/cache/config/ParamType.js';
 import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
 import { CommandHandlers } from '#lostcity/engine/script/ScriptRunner.js';
 
-import {check, LocTypeValid, ParamTypeValid} from '#lostcity/engine/script/ScriptValidators.js';
+import { check, LocTypeValid, ParamTypeValid } from '#lostcity/engine/script/ScriptValidators.js';
 
 const LocConfigOps: CommandHandlers = {
     [ScriptOpcode.LC_NAME]: state => {

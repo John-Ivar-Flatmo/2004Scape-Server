@@ -1,4 +1,4 @@
-import {Worker} from 'worker_threads';
+import { Worker } from 'worker_threads';
 import fs from 'fs';
 import Watcher from 'watcher';
 import path from 'path';
@@ -6,7 +6,7 @@ import kleur from 'kleur';
 
 import Packet from '#jagex2/io/Packet.js';
 
-import {toBase37} from '#jagex2/jstring/JString.js';
+import { toBase37 } from '#jagex2/jstring/JString.js';
 
 import CategoryType from '#lostcity/cache/config/CategoryType.js';
 import DbRowType from '#lostcity/cache/config/DbRowType.js';
@@ -32,7 +32,7 @@ import WordEnc from '#lostcity/cache/wordenc/WordEnc.js';
 import SpotanimType from '#lostcity/cache/config/SpotanimType.js';
 
 import GameMap from '#lostcity/engine/GameMap.js';
-import {Inventory} from '#lostcity/engine/Inventory.js';
+import { Inventory } from '#lostcity/engine/Inventory.js';
 import Login from '#lostcity/engine/Login.js';
 
 import ScriptPointer from '#lostcity/engine/script/ScriptPointer.js';
@@ -47,23 +47,23 @@ import Npc from '#lostcity/entity/Npc.js';
 import Obj from '#lostcity/entity/Obj.js';
 import Player from '#lostcity/entity/Player.js';
 import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
-import {NpcList, PlayerList} from '#lostcity/entity/EntityList.js';
-import {isNetworkPlayer} from '#lostcity/entity/NetworkPlayer.js';
-import {EntityQueueState} from '#lostcity/entity/EntityQueueRequest.js';
-import {PlayerTimerType} from '#lostcity/entity/EntityTimer.js';
+import { NpcList, PlayerList } from '#lostcity/entity/EntityList.js';
+import { isNetworkPlayer } from '#lostcity/entity/NetworkPlayer.js';
+import { EntityQueueState } from '#lostcity/entity/EntityQueueRequest.js';
+import { PlayerTimerType } from '#lostcity/entity/EntityTimer.js';
 
 import ClientSocket from '#lostcity/server/ClientSocket.js';
 
 import Environment from '#lostcity/util/Environment.js';
-import {getLatestModified, getModified, shouldBuildFileAny} from '#lostcity/util/PackFile.js';
+import { getLatestModified, getModified, shouldBuildFileAny } from '#lostcity/util/PackFile.js';
 import Zone from './zone/Zone.js';
 import LinkList from '#jagex2/datastruct/LinkList.js';
-import {createWorker} from '#lostcity/util/WorkerFactory.js';
-import {LoginResponse} from '#lostcity/server/LoginServer.js';
+import { createWorker } from '#lostcity/util/WorkerFactory.js';
+import { LoginResponse } from '#lostcity/server/LoginServer.js';
 import ClientProt from '#lostcity/network/225/incoming/prot/ClientProt.js';
-import {makeCrcs} from '#lostcity/server/CrcTable.js';
-import {preloadClient, preloadClientAsync} from '#lostcity/server/PreloadedPacks.js';
-import {Position} from '#lostcity/entity/Position.js';
+import { makeCrcs } from '#lostcity/server/CrcTable.js';
+import { preloadClient, preloadClientAsync } from '#lostcity/server/PreloadedPacks.js';
+import { Position } from '#lostcity/entity/Position.js';
 import UpdateRebootTimer from '#lostcity/network/outgoing/model/UpdateRebootTimer.js';
 import ZoneGrid from '#lostcity/engine/zone/ZoneGrid.js';
 import ZoneMap from '#lostcity/engine/zone/ZoneMap.js';
@@ -216,7 +216,7 @@ class World {
             this.invs.clear();
             for (let i = 0; i < InvType.count; i++) {
                 const inv = InvType.get(i);
-    
+
                 if (inv && inv.scope === InvType.SCOPE_SHARED) {
                     this.invs.add(Inventory.fromType(i));
                 }
@@ -352,7 +352,7 @@ class World {
             this.invs.clear();
             for (let i = 0; i < InvType.count; i++) {
                 const inv = InvType.get(i);
-    
+
                 if (inv && inv.scope === InvType.SCOPE_SHARED) {
                     this.invs.add(Inventory.fromType(i));
                 }
@@ -674,7 +674,9 @@ class World {
 
         if (Environment.NODE_DEBUG_PROFILE) {
             console.log(`tick ${this.currentTick} took ${this.cycleStats[WorldStat.CYCLE]}ms: ${this.getTotalPlayers()} players`);
-            console.log(`${this.cycleStats[WorldStat.WORLD]} ms world | ${this.cycleStats[WorldStat.CLIENT_IN]} ms client in | ${this.cycleStats[WorldStat.NPC]} ms npcs | ${this.cycleStats[WorldStat.PLAYER]} ms players | ${this.cycleStats[WorldStat.LOGOUT]} ms logout | ${this.cycleStats[WorldStat.LOGIN]} ms login | ${this.cycleStats[WorldStat.ZONE]} ms zones | ${this.cycleStats[WorldStat.CLIENT_OUT]} ms client out | ${this.cycleStats[WorldStat.CLEANUP]} ms cleanup`);
+            console.log(
+                `${this.cycleStats[WorldStat.WORLD]} ms world | ${this.cycleStats[WorldStat.CLIENT_IN]} ms client in | ${this.cycleStats[WorldStat.NPC]} ms npcs | ${this.cycleStats[WorldStat.PLAYER]} ms players | ${this.cycleStats[WorldStat.LOGOUT]} ms logout | ${this.cycleStats[WorldStat.LOGIN]} ms login | ${this.cycleStats[WorldStat.ZONE]} ms zones | ${this.cycleStats[WorldStat.CLIENT_OUT]} ms client out | ${this.cycleStats[WorldStat.CLEANUP]} ms cleanup`
+            );
             console.log('----');
         }
     }

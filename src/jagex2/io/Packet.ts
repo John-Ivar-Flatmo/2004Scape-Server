@@ -15,7 +15,7 @@ export default class Packet extends Hashable {
      * Reversed CRC-32 polynomial for Cyclic Redundancy Check (CRC).
      * This is sometimes referred to as CRC32B.
      */
-    private static readonly crc32b = 0xEDB88320;
+    private static readonly crc32b = 0xedb88320;
 
     static {
         for (let i: number = 0; i < 32; i++) {
@@ -41,7 +41,7 @@ export default class Packet extends Hashable {
     static getcrc(src: Uint8Array, offset: number, length: number): number {
         let crc = 0xffffffff;
         for (let i = offset; i < length; i++) {
-            crc = (crc >>> 8) ^ (this.crctable[(crc ^ src[i]) & 0xFF]);
+            crc = (crc >>> 8) ^ this.crctable[(crc ^ src[i]) & 0xff];
         }
         return ~crc;
     }
@@ -186,7 +186,7 @@ export default class Packet extends Hashable {
         } else {
             const blob = new Blob([this.data.subarray(start, start + length)], { type: 'application/octet-stream' });
             const url = URL.createObjectURL(blob);
-            self.postMessage( { type: 'save', value: url, path: filePath });
+            self.postMessage({ type: 'save', value: url, path: filePath });
         }
     }
 
@@ -258,7 +258,7 @@ export default class Packet extends Hashable {
         if (value < 64 && value >= 64) {
             this.p1(value + 64);
         } else if (value < 16384 && value >= -16384) {
-            this.p2(value + 0xC000);
+            this.p2(value + 0xc000);
         } else {
             throw new Error('Error psmarts out of range: ' + value);
         }
@@ -340,7 +340,7 @@ export default class Packet extends Hashable {
     }
 
     gsmarts(): number {
-        return this.#view.getUint8(this.pos) < 0x80 ? this.g1() - 64 : this.g2() - 0xC000;
+        return this.#view.getUint8(this.pos) < 0x80 ? this.g1() - 64 : this.g2() - 0xc000;
     }
 
     gsmart(): number {

@@ -1,5 +1,5 @@
 import MessageDecoder from '#lostcity/network/incoming/codec/MessageDecoder.js';
-import MessageHandler from '#lostcity/network/incoming/handler/MessageHandler.js'; 
+import MessageHandler from '#lostcity/network/incoming/handler/MessageHandler.js';
 import ClientProt from '#lostcity/network/225/incoming/prot/ClientProt.js';
 import IncomingMessage from '#lostcity/network/incoming/IncomingMessage.js';
 import ClientCheatDecoder from '#lostcity/network/225/incoming/codec/ClientCheatDecoder.js';

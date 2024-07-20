@@ -393,7 +393,7 @@ export class LoginClient {
             return -1;
         }
 
-        const request = new Packet(new Uint8Array(2 + 2 + (players.length * 8)));
+        const request = new Packet(new Uint8Array(2 + 2 + players.length * 8));
         request.p2(Environment.NODE_ID as number);
         request.p2(players.length);
         for (const player of players) {

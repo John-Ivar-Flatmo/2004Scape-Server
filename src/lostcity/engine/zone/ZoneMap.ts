@@ -1,6 +1,6 @@
 import Zone from '#lostcity/engine/zone/Zone.js';
 import ZoneGrid from '#lostcity/engine/zone/ZoneGrid.js';
-import {Position} from '#lostcity/entity/Position.js';
+import { Position } from '#lostcity/entity/Position.js';
 
 export default class ZoneMap {
     static zoneIndex(x: number, z: number, level: number): number {

@@ -6,12 +6,12 @@ import SpotanimType from '#lostcity/cache/config/SpotanimType.js';
 import World from '#lostcity/engine/World.js';
 
 import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
-import ScriptPointer, {ActiveNpc, checkedHandler} from '#lostcity/engine/script/ScriptPointer.js';
+import ScriptPointer, { ActiveNpc, checkedHandler } from '#lostcity/engine/script/ScriptPointer.js';
 import ScriptProvider from '#lostcity/engine/script/ScriptProvider.js';
 import { CommandHandlers } from '#lostcity/engine/script/ScriptRunner.js';
 import ScriptState from '#lostcity/engine/script/ScriptState.js';
 import ServerTriggerType from '#lostcity/engine/script/ServerTriggerType.js';
-import {NpcIterator} from '#lostcity/engine/script/ScriptIterators.js';
+import { NpcIterator } from '#lostcity/engine/script/ScriptIterators.js';
 
 import Loc from '#lostcity/entity/Loc.js';
 import Obj from '#lostcity/entity/Obj.js';
@@ -24,21 +24,7 @@ import Interaction from '#lostcity/entity/Interaction.js';
 import HuntVis from '#lostcity/entity/hunt/HuntVis.js';
 import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 
-import {
-    check,
-    CoordValid,
-    DurationValid,
-    HitTypeValid,
-    HuntTypeValid,
-    HuntVisValid,
-    NpcModeValid,
-    NpcStatValid,
-    NpcTypeValid,
-    NumberNotNull,
-    ParamTypeValid,
-    QueueValid,
-    SpotAnimTypeValid
-} from '#lostcity/engine/script/ScriptValidators.js';
+import { check, CoordValid, DurationValid, HitTypeValid, HuntTypeValid, HuntVisValid, NpcModeValid, NpcStatValid, NpcTypeValid, NumberNotNull, ParamTypeValid, QueueValid, SpotAnimTypeValid } from '#lostcity/engine/script/ScriptValidators.js';
 
 const NpcOps: CommandHandlers = {
     [ScriptOpcode.NPC_FINDUID]: state => {
@@ -208,7 +194,7 @@ const NpcOps: CommandHandlers = {
             state.activeNpc.targetOp = mode;
             return;
         }
-        
+
         state.activeNpc.targetOp = mode;
         let target: Entity | null;
         if (mode >= NpcMode.OPNPC1) {
@@ -223,7 +209,7 @@ const NpcOps: CommandHandlers = {
 
         if (target) {
             if (target instanceof Npc || target instanceof Obj || target instanceof Loc) {
-                state.activeNpc.setInteraction(Interaction.SCRIPT, target, mode, {type: target.type, com: -1});
+                state.activeNpc.setInteraction(Interaction.SCRIPT, target, mode, { type: target.type, com: -1 });
             } else {
                 state.activeNpc.setInteraction(Interaction.SCRIPT, target, mode);
             }
@@ -302,7 +288,7 @@ const NpcOps: CommandHandlers = {
         const npcs = new NpcIterator(World.currentTick, position.level, position.x, position.z, distance, huntvis, NpcIteratorType.DISTANCE);
 
         for (const npc of npcs) {
-            if(npc && npc.type === npcType.id) {
+            if (npc && npc.type === npcType.id) {
                 const npcDistance = Position.distanceToSW(position, npc);
                 if (npcDistance <= closestDistance) {
                     closestNpc = npc;
@@ -425,7 +411,7 @@ const NpcOps: CommandHandlers = {
     // https://twitter.com/JagexAsh/status/1614498680144527360
     [ScriptOpcode.NPC_ATTACKRANGE]: checkedHandler(ActiveNpc, state => {
         state.pushInt(check(state.activeNpc.type, NpcTypeValid).attackrange);
-    }),
+    })
 };
 
 export default NpcOps;

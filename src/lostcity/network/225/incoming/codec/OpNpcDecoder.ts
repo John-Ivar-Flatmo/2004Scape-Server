@@ -4,7 +4,10 @@ import ClientProt from '#lostcity/network/225/incoming/prot/ClientProt.js';
 import OpNpc from '#lostcity/network/incoming/model/OpNpc.js';
 
 export default class OpNpcDecoder extends MessageDecoder<OpNpc> {
-    constructor(readonly prot: ClientProt, readonly op: number) {
+    constructor(
+        readonly prot: ClientProt,
+        readonly op: number
+    ) {
         super();
     }
 

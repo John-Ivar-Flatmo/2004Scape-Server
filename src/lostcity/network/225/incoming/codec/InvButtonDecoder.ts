@@ -4,7 +4,10 @@ import ClientProt from '#lostcity/network/225/incoming/prot/ClientProt.js';
 import InvButton from '#lostcity/network/incoming/model/InvButton.js';
 
 export default class InvButtonDecoder extends MessageDecoder<InvButton> {
-    constructor(readonly prot: ClientProt, readonly op: number) {
+    constructor(
+        readonly prot: ClientProt,
+        readonly op: number
+    ) {
         super();
     }
 

@@ -10,13 +10,12 @@
 
 [label,openbank]
 %bank_noted = 0;
-~reorganize_bank;
+//JIFEDIT dont reorganize bank
 inv_transmit(inv, bank_side:inv);
 inv_transmit(bank, bank_main:inv);
 if_openmainmodalsideoverlay(bank_main, bank_side);
 
 [label,closebank]
-~reorganize_bank;
 inv_stoptransmit(bank_side:inv);
 inv_stoptransmit(bank_main:inv);
 
@@ -78,10 +77,8 @@ if ($overflow >= $amount) {
 }
 inv_moveitem_uncert($inv, bank, $obj, sub($amount, $overflow));
 
+//JIFEDIT allow banking unbankable items
 [proc,bank_check_nobreak](obj $obj)(boolean)
-if (~bank_find_obj_unbankable($obj) = true) {
-    @a_magical_force_prevents_you_from_banking_this_item;
-}
 
 if (map_members = false) {
     // check for f2p bank limits.
@@ -94,10 +91,6 @@ return(false);
 [label,a_magical_force_prevents_you_from_banking_this_item]
 mes("A magical force prevents you from banking this item!"); // osrs
 
-// reorganize the bank like when you open the bank.
-// this is because a player can move objs around in the bank
-// to any slot that is available. so when they open the bank
-// we reorganize all of the slots towards the left of the bank.
 [proc,reorganize_bank]
 def_int $size = inv_size(bank);
 def_int $count = 0;
@@ -136,11 +129,3 @@ while ($count < $size) {
     }
 }
 return($slot);
-
-// returns if an obj is considered to be unbankable.
-// experience lamps, quest items, etc.
-[proc,bank_find_obj_unbankable](obj $obj)(boolean)
-switch_obj ($obj) {
-    case lamp : return(true); // cant bank xp lamps
-    case default : return(false);
-}

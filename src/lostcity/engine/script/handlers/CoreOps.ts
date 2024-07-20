@@ -10,8 +10,8 @@ import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
 import ScriptProvider from '#lostcity/engine/script/ScriptProvider.js';
 import { CommandHandlers } from '#lostcity/engine/script/ScriptRunner.js';
 import ScriptState from '#lostcity/engine/script/ScriptState.js';
-import {check, VarNpcValid, VarPlayerValid, VarSharedValid} from '#lostcity/engine/script/ScriptValidators.js';
-import {ProtectedActivePlayer} from '#lostcity/engine/script/ScriptPointer.js';
+import { check, VarNpcValid, VarPlayerValid, VarSharedValid } from '#lostcity/engine/script/ScriptValidators.js';
+import { ProtectedActivePlayer } from '#lostcity/engine/script/ScriptPointer.js';
 
 function gosub(state: ScriptState, id: number) {
     if (state.fp >= 50) {
@@ -76,9 +76,9 @@ const CoreOps: CommandHandlers = {
 
         const varpType: VarPlayerType = check(state.intOperand & 0xffff, VarPlayerValid);
         if (varpType.type === ScriptVarType.STRING) {
-            state.pushString(secondary ? state._activePlayer2!.getVar(varpType.id) as string : state._activePlayer!.getVar(varpType.id) as string);
+            state.pushString(secondary ? (state._activePlayer2!.getVar(varpType.id) as string) : (state._activePlayer!.getVar(varpType.id) as string));
         } else {
-            state.pushInt(secondary ? state._activePlayer2!.getVar(varpType.id) as number : state._activePlayer!.getVar(varpType.id) as number);
+            state.pushInt(secondary ? (state._activePlayer2!.getVar(varpType.id) as number) : (state._activePlayer!.getVar(varpType.id) as number));
         }
     },
 
@@ -122,9 +122,9 @@ const CoreOps: CommandHandlers = {
 
         const varnType: VarNpcType = check(state.intOperand & 0xffff, VarNpcValid);
         if (varnType.type === ScriptVarType.STRING) {
-            state.pushString(secondary ? state._activeNpc2!.getVar(varnType.id) as string : state._activeNpc!.getVar(varnType.id) as string);
+            state.pushString(secondary ? (state._activeNpc2!.getVar(varnType.id) as string) : (state._activeNpc!.getVar(varnType.id) as string));
         } else {
-            state.pushInt(secondary ? state._activeNpc2!.getVar(varnType.id) as number : state._activeNpc!.getVar(varnType.id) as number);
+            state.pushInt(secondary ? (state._activeNpc2!.getVar(varnType.id) as number) : (state._activeNpc!.getVar(varnType.id) as number));
         }
     },
 

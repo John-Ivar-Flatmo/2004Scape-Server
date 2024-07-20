@@ -4,7 +4,11 @@ import ClientProtCategory from '#lostcity/network/incoming/prot/ClientProtCatego
 export default class MessagePublic extends IncomingMessage {
     category = ClientProtCategory.USER_EVENT;
 
-    constructor(readonly input: string, readonly color: number, readonly effect: number) {
+    constructor(
+        readonly input: string,
+        readonly color: number,
+        readonly effect: number
+    ) {
         super();
     }
 }

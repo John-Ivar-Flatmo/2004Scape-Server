@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
 import Packet from '#jagex2/io/Packet.js';
-import {fromBase37, toDisplayName} from '#jagex2/jstring/JString.js';
+import { fromBase37, toDisplayName } from '#jagex2/jstring/JString.js';
 
 import FontType from '#lostcity/cache/config/FontType.js';
 import Component from '#lostcity/cache/config/Component.js';
@@ -14,21 +14,21 @@ import SeqType from '#lostcity/cache/config/SeqType.js';
 import VarPlayerType from '#lostcity/cache/config/VarPlayerType.js';
 
 import BlockWalk from '#lostcity/entity/BlockWalk.js';
-import {EntityTimer, PlayerTimerType} from '#lostcity/entity/EntityTimer.js';
-import {EntityQueueRequest, PlayerQueueType, QueueType, ScriptArgument} from '#lostcity/entity/EntityQueueRequest.js';
+import { EntityTimer, PlayerTimerType } from '#lostcity/entity/EntityTimer.js';
+import { EntityQueueRequest, PlayerQueueType, QueueType, ScriptArgument } from '#lostcity/entity/EntityQueueRequest.js';
 import Loc from '#lostcity/entity/Loc.js';
 import Npc from '#lostcity/entity/Npc.js';
 import MoveRestrict from '#lostcity/entity/MoveRestrict.js';
 import Obj from '#lostcity/entity/Obj.js';
 import PathingEntity from '#lostcity/entity/PathingEntity.js';
-import {Position} from '#lostcity/entity/Position.js';
+import { Position } from '#lostcity/entity/Position.js';
 import CameraInfo from '#lostcity/entity/CameraInfo.js';
 import MoveSpeed from '#lostcity/entity/MoveSpeed.js';
 import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 import PlayerStat from '#lostcity/entity/PlayerStat.js';
 import MoveStrategy from '#lostcity/entity/MoveStrategy.js';
 
-import {Inventory} from '#lostcity/engine/Inventory.js';
+import { Inventory } from '#lostcity/engine/Inventory.js';
 import World from '#lostcity/engine/World.js';
 
 import Script from '#lostcity/engine/script/Script.js';
@@ -43,8 +43,8 @@ import Environment from '#lostcity/util/Environment.js';
 import LinkList from '#jagex2/datastruct/LinkList.js';
 import Stack from '#jagex2/datastruct/Stack.js';
 
-import {CollisionFlag} from '@2004scape/rsmod-pathfinder';
-import {PRELOADED, PRELOADED_CRC} from '#lostcity/server/PreloadedPacks.js';
+import { CollisionFlag } from '@2004scape/rsmod-pathfinder';
+import { PRELOADED, PRELOADED_CRC } from '#lostcity/server/PreloadedPacks.js';
 import OutgoingMessage from '#lostcity/network/outgoing/OutgoingMessage.js';
 import IfClose from '#lostcity/network/outgoing/model/IfClose.js';
 import UpdateUid192 from '#lostcity/network/outgoing/model/UpdateUid192.js';
@@ -481,7 +481,7 @@ export default class Player extends PathingEntity {
             this.pathToPathingTarget();
         }
 
-        if (this.hasWaypoints() && this.walktrigger !== -1 && (!this.protect && !this.delayed())) {
+        if (this.hasWaypoints() && this.walktrigger !== -1 && !this.protect && !this.delayed()) {
             const trigger = ScriptProvider.get(this.walktrigger);
             this.walktrigger = -1;
 
@@ -524,18 +524,29 @@ export default class Player extends PathingEntity {
         if (!moved || this.stepsTaken === 0) {
             return;
         }
+        //JIFEDIT allow taking extra step before loosing run capacity, to punish player less
+        //when leaving run on, while say collecting wheat	//BROKEN maybe i misunderstood
+        //how that worked, cuz it resulted in infinite run
+        //JIFEDIT reduce running energy loss, especialy for weight to punish player less
+        //for running with equipment on or items in inventory
         if (!this.delayed() && this.moveSpeed === MoveSpeed.RUN && this.stepsTaken > 1) {
             const weightKg = Math.floor(this.runweight / 1000);
             const clampWeight = Math.min(Math.max(weightKg, 0), 64);
-            const loss = (67 + (67 * clampWeight) / 64) | 0;
+            const loss = (52 + (47 * clampWeight) / 64) | 0; // 47,52 used to be 67
             this.runenergy = Math.max(this.runenergy - loss, 0);
         }
     }
-
+    //JIFEDIT increase base energy recovered to match increase from max agility
+    //meaning lvl 99 agility offers double run recovery
+    //JIFEDIT allow run energy to exceed 100% at lower efficiency the higher it goes
     private recoverEnergy(moved: boolean): void {
-        if (!this.delayed() && (!moved || this.moveSpeed !== MoveSpeed.RUN) && this.runenergy < 10000) {
-            const recovered = (this.baseLevels[PlayerStat.AGILITY] / 9 | 0) + 8;
-            this.runenergy = Math.min(this.runenergy + recovered, 10000);
+        if (!this.delayed() && (!moved || this.moveSpeed !== MoveSpeed.RUN)) {
+            const recovered = ((this.baseLevels[PlayerStat.AGILITY] / 9) | 0) + 11; //8 -> 11
+            if (this.runenergy >= 10000) {
+                this.runenergy += recovered / (this.runenergy / 10000 + 1);
+            } else {
+                this.runenergy += recovered;
+            }
         }
     }
 
@@ -846,10 +857,10 @@ export default class Player extends PathingEntity {
 
         const opTrigger = this.getOpTrigger();
         const apTrigger = this.getApTrigger();
-    
+
         // console.log('operable', opTrigger != null, 'trigger exists', this.inOperableDistance(this.target), 'in range');
         // console.log('approachable', apTrigger != null, 'trigger exists', this.inApproachDistance(this.apRange, this.target), 'in range');
-    
+
         if (opTrigger && this.target instanceof PathingEntity && this.inOperableDistance(this.target)) {
             const target = this.target;
             this.target = null;
@@ -883,7 +894,7 @@ export default class Player extends PathingEntity {
             if (Environment.NODE_DEBUG && !opTrigger && !apTrigger) {
                 let debugname = '_';
                 if (this.target instanceof Npc) {
-                    if (this.targetSubject.com !== -1 && this.targetOp === ServerTriggerType.APNPCT || this.targetOp === ServerTriggerType.OPNPCT) {
+                    if ((this.targetSubject.com !== -1 && this.targetOp === ServerTriggerType.APNPCT) || this.targetOp === ServerTriggerType.OPNPCT) {
                         debugname = Component.get(this.targetSubject.com)?.comName ?? this.targetSubject.toString();
                     } else {
                         debugname = NpcType.get(this.target.type)?.debugname ?? this.target.type.toString();
@@ -892,7 +903,7 @@ export default class Player extends PathingEntity {
                     debugname = LocType.get(this.target.type)?.debugname ?? this.target.type.toString();
                 } else if (this.target instanceof Obj) {
                     debugname = ObjType.get(this.target.type)?.debugname ?? this.target.type.toString();
-                } else if (this.targetSubject.com !== -1 && this.targetOp === ServerTriggerType.APNPCT || this.targetOp === ServerTriggerType.APPLAYERT || this.targetOp === ServerTriggerType.APLOCT || this.targetOp === ServerTriggerType.APOBJT) {
+                } else if ((this.targetSubject.com !== -1 && this.targetOp === ServerTriggerType.APNPCT) || this.targetOp === ServerTriggerType.APPLAYERT || this.targetOp === ServerTriggerType.APLOCT || this.targetOp === ServerTriggerType.APOBJT) {
                     debugname = Component.get(this.targetSubject.com)?.comName ?? this.targetSubject.toString();
                 } else if (this.targetSubject.type !== -1) {
                     debugname = ObjType.get(this.targetSubject.type)?.debugname ?? this.targetSubject.toString();
@@ -918,7 +929,6 @@ export default class Player extends PathingEntity {
             this.interacted = false;
 
             if (opTrigger && (this.target instanceof PathingEntity || !moved) && this.inOperableDistance(this.target)) {
-
                 const target = this.target;
                 this.target = null;
 
@@ -958,7 +968,12 @@ export default class Player extends PathingEntity {
                         debugname = LocType.get(this.target.type)?.debugname ?? this.target.type.toString();
                     } else if (this.target instanceof Obj) {
                         debugname = ObjType.get(this.target.type)?.debugname ?? this.target.type.toString();
-                    } else if (this.targetSubject.com !== -1 && this.targetOp === ServerTriggerType.APNPCT || this.targetOp === ServerTriggerType.APPLAYERT || this.targetOp === ServerTriggerType.APLOCT || this.targetOp === ServerTriggerType.APOBJT) {
+                    } else if (
+                        (this.targetSubject.com !== -1 && this.targetOp === ServerTriggerType.APNPCT) ||
+                        this.targetOp === ServerTriggerType.APPLAYERT ||
+                        this.targetOp === ServerTriggerType.APLOCT ||
+                        this.targetOp === ServerTriggerType.APOBJT
+                    ) {
                         debugname = Component.get(this.targetSubject.com)?.comName ?? this.targetSubject.toString();
                     } else if (this.targetSubject.type !== -1) {
                         debugname = ObjType.get(this.targetSubject.type)?.debugname ?? this.targetSubject.toString();
@@ -975,7 +990,7 @@ export default class Player extends PathingEntity {
         }
 
         // https://youtu.be/_NmFftkMm0I?si=xSgb8GCydgUXUayR&t=79, only called when clicking to interact?
-        if (!this.interactWalkTrigger && this.walktrigger !== -1 && (!this.protect && !this.delayed())) {
+        if (!this.interactWalkTrigger && this.walktrigger !== -1 && !this.protect && !this.delayed()) {
             const trigger = ScriptProvider.get(this.walktrigger);
             this.walktrigger = -1;
             if (trigger) {

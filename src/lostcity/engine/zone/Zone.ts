@@ -4,7 +4,7 @@ import Obj from '#lostcity/entity/Obj.js';
 import Player from '#lostcity/entity/Player.js';
 import PathingEntity from '#lostcity/entity/PathingEntity.js';
 import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
-import {Position} from '#lostcity/entity/Position.js';
+import { Position } from '#lostcity/entity/Position.js';
 
 import World from '#lostcity/engine/World.js';
 import ZoneMap from '#lostcity/engine/zone/ZoneMap.js';
@@ -27,7 +27,7 @@ import LocMerge from '#lostcity/network/outgoing/model/LocMerge.js';
 import ServerProtRepository from '#lostcity/network/225/outgoing/prot/ServerProtRepository.js';
 import ZoneMessageEncoder from '#lostcity/network/outgoing/codec/ZoneMessageEncoder.js';
 import ZoneMessage from '#lostcity/network/outgoing/ZoneMessage.js';
-import ZoneEntityList, {LocList, ObjList} from '#lostcity/engine/zone/ZoneEntityList.js';
+import ZoneEntityList, { LocList, ObjList } from '#lostcity/engine/zone/ZoneEntityList.js';
 import NonPathingEntity from '#lostcity/entity/NonPathingEntity.js';
 
 export default class Zone {
@@ -409,11 +409,11 @@ export default class Zone {
     }
 
     *getObjsUnsafe(coord: number): IterableIterator<Obj> {
-        yield *this.objs.stack(coord);
+        yield* this.objs.stack(coord);
     }
 
     *getAllObjsUnsafe(reverse: boolean = false): IterableIterator<Obj> {
-        yield *this.objs.all(reverse);
+        yield* this.objs.all(reverse);
     }
 
     *getAllLocsSafe(): IterableIterator<Loc> {
@@ -433,10 +433,10 @@ export default class Zone {
     }
 
     *getLocsUnsafe(coord: number): IterableIterator<Loc> {
-        yield *this.locs.stack(coord);
+        yield* this.locs.stack(coord);
     }
 
     *getAllLocsUnsafe(reverse: boolean = false): IterableIterator<Loc> {
-        yield *this.locs.all(reverse);
+        yield* this.locs.all(reverse);
     }
 }

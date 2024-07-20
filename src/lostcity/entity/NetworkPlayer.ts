@@ -142,7 +142,7 @@ export class NetworkPlayer extends Player {
         }
         const prot: ServerProt = encoder.prot;
         const buf = client.out;
-        const test = (1 + (prot.length === -1 ? 1 : prot.length === -2 ? 2 : 0)) + encoder.test(message);
+        const test = 1 + (prot.length === -1 ? 1 : prot.length === -2 ? 2 : 0) + encoder.test(message);
         if (buf.pos + test >= buf.length) {
             client.flush();
         }
@@ -246,7 +246,25 @@ export class NetworkPlayer extends Player {
     }
 
     updatePlayers() {
-        this.write(new PlayerInfo(this.buildArea, this.level, this.x, this.z, this.originX, this.originZ, this.uid, this.mask, this.tele, this.jump, this.walkDir, this.runDir, Math.abs(this.lastX - this.x), Math.abs(this.lastZ - this.z), this.lastLevel !== this.level));
+        this.write(
+            new PlayerInfo(
+                this.buildArea,
+                this.level,
+                this.x,
+                this.z,
+                this.originX,
+                this.originZ,
+                this.uid,
+                this.mask,
+                this.tele,
+                this.jump,
+                this.walkDir,
+                this.runDir,
+                Math.abs(this.lastX - this.x),
+                Math.abs(this.lastZ - this.z),
+                this.lastLevel !== this.level
+            )
+        );
     }
 
     updateNpcs() {

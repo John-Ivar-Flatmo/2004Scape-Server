@@ -9,8 +9,8 @@ import World from '#lostcity/engine/World.js';
 import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
 import { CommandHandlers } from '#lostcity/engine/script/ScriptRunner.js';
 import ScriptState from '#lostcity/engine/script/ScriptState.js';
-import {ActiveNpc, ActivePlayer} from '#lostcity/engine/script/ScriptPointer.js';
-import {HuntIterator} from '#lostcity/engine/script/ScriptIterators.js';
+import { ActiveNpc, ActivePlayer } from '#lostcity/engine/script/ScriptPointer.js';
+import { HuntIterator } from '#lostcity/engine/script/ScriptIterators.js';
 
 import { Position } from '#lostcity/entity/Position.js';
 import HuntModeType from '#lostcity/entity/hunt/HuntModeType.js';
@@ -21,21 +21,9 @@ import HuntVis from '#lostcity/entity/hunt/HuntVis.js';
 import Environment from '#lostcity/util/Environment.js';
 
 import * as rsmod from '@2004scape/rsmod-pathfinder';
-import {CollisionFlag, LocLayer, LocAngle} from '@2004scape/rsmod-pathfinder';
+import { CollisionFlag, LocLayer, LocAngle } from '@2004scape/rsmod-pathfinder';
 
-import {
-    check,
-    CoordValid,
-    FontTypeValid,
-    HuntVisValid,
-    LocTypeValid,
-    MesanimValid,
-    NumberNotNull,
-    ParamTypeValid,
-    SeqTypeValid,
-    SpotAnimTypeValid,
-    StructTypeValid
-} from '#lostcity/engine/script/ScriptValidators.js';
+import { check, CoordValid, FontTypeValid, HuntVisValid, LocTypeValid, MesanimValid, NumberNotNull, ParamTypeValid, SeqTypeValid, SpotAnimTypeValid, StructTypeValid } from '#lostcity/engine/script/ScriptValidators.js';
 
 const ServerOps: CommandHandlers = {
     [ScriptOpcode.MAP_CLOCK]: state => {
@@ -51,7 +39,7 @@ const ServerOps: CommandHandlers = {
 
         const from: Position = check(c1, CoordValid);
         const to: Position = check(c2, CoordValid);
-    
+
         let count = 0;
         for (let x = Math.floor(from.x / 8); x <= Math.ceil(to.x / 8); x++) {
             for (let z = Math.floor(from.z / 8); z <= Math.ceil(to.z / 8); z++) {
@@ -62,7 +50,7 @@ const ServerOps: CommandHandlers = {
                 }
             }
         }
-    
+
         state.pushInt(count);
     },
 

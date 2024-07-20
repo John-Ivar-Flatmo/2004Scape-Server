@@ -1,28 +1,20 @@
 import InvType from '#lostcity/cache/config/InvType.js';
 import ObjType from '#lostcity/cache/config/ObjType.js';
-import {ParamHelper} from '#lostcity/cache/config/ParamHelper.js';
+import { ParamHelper } from '#lostcity/cache/config/ParamHelper.js';
 import ParamType from '#lostcity/cache/config/ParamType.js';
 
 import World from '#lostcity/engine/World.js';
 import Zone from '#lostcity/engine/zone/Zone.js';
 
 import ScriptOpcode from '#lostcity/engine/script/ScriptOpcode.js';
-import {ActiveObj, ActivePlayer} from '#lostcity/engine/script/ScriptPointer.js';
-import {CommandHandlers} from '#lostcity/engine/script/ScriptRunner.js';
+import { ActiveObj, ActivePlayer } from '#lostcity/engine/script/ScriptPointer.js';
+import { CommandHandlers } from '#lostcity/engine/script/ScriptRunner.js';
 
 import Obj from '#lostcity/entity/Obj.js';
-import {Position} from '#lostcity/entity/Position.js';
+import { Position } from '#lostcity/entity/Position.js';
 import EntityLifeCycle from '#lostcity/entity/EntityLifeCycle.js';
 
-import {
-    check,
-    CoordValid,
-    DurationValid,
-    InvTypeValid,
-    ObjStackValid,
-    ObjTypeValid,
-    ParamTypeValid
-} from '#lostcity/engine/script/ScriptValidators.js';
+import { check, CoordValid, DurationValid, InvTypeValid, ObjStackValid, ObjTypeValid, ParamTypeValid } from '#lostcity/engine/script/ScriptValidators.js';
 import Environment from '#lostcity/util/Environment.js';
 
 const ObjOps: CommandHandlers = {
@@ -87,7 +79,7 @@ const ObjOps: CommandHandlers = {
             for (let i = 0; i < count; i++) {
                 const obj: Obj = new Obj(position.level, position.x, position.z, EntityLifeCycle.DESPAWN, objId, 1);
                 World.addObj(obj, -1, duration);
-    
+
                 state.activeObj = obj;
                 state.pointerAdd(ActiveObj[state.intOperand]);
             }

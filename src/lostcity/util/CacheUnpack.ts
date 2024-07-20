@@ -354,7 +354,6 @@ export function unpackConfig(jag: Jagfile | null, name: string, decoder: (dat: P
     console.log(count, name + ' configs unpacked');
 }
 
-
 enum LocShape {
     wall_straight,
     wall_diagonalcorner,
@@ -378,7 +377,7 @@ enum LocShape {
     roofedge_diagonalcorner,
     roofedge_l,
     roofedge_squarecorner,
-    grounddecor,
+    grounddecor
 }
 
 export function decodeLoc(dat: Packet, code: number) {

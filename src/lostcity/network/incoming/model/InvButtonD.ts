@@ -4,7 +4,11 @@ import ClientProtCategory from '#lostcity/network/incoming/prot/ClientProtCatego
 export default class InvButtonD extends IncomingMessage {
     category = ClientProtCategory.USER_EVENT;
 
-    constructor(readonly component: number, readonly slot: number, readonly targetSlot: number) {
+    constructor(
+        readonly component: number,
+        readonly slot: number,
+        readonly targetSlot: number
+    ) {
         super();
     }
 }

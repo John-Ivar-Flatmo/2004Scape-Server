@@ -33,7 +33,7 @@ const defines = {
     'process.env.BUILD_VERIFY': 'undefined',
     'process.env.BUILD_VERIFY_FOLDER': 'undefined',
     'process.env.BUILD_VERIFY_PACK': 'undefined',
-    'process.env.BUILD_SRC_DIR': 'undefined',
+    'process.env.BUILD_SRC_DIR': 'undefined'
 };
 
 try {
@@ -44,17 +44,21 @@ try {
 }
 
 async function esb(entryPoints) {
-    const bundle = await esbuild.build({
-        bundle: true,
-        format: 'esm',
-        write: false,
-        outdir: 'placeholder', // unused but required by esbuild
-        entryPoints: entryPoints,
-        external: modules.concat(esbuildModules),
-        define: defines,
-        // sourcemap: 'inline',
-        // minify: true,
-    }).catch((e) => { throw new Error(e); });
+    const bundle = await esbuild
+        .build({
+            bundle: true,
+            format: 'esm',
+            write: false,
+            outdir: 'placeholder', // unused but required by esbuild
+            entryPoints: entryPoints,
+            external: modules.concat(esbuildModules),
+            define: defines
+            // sourcemap: 'inline',
+            // minify: true,
+        })
+        .catch(e => {
+            throw new Error(e);
+        });
 
     for (let index = 0; index < bundle.outputFiles.length; index++) {
         removeImports(bundle.outputFiles[index].text, entryPoints[index]);
@@ -66,10 +70,12 @@ async function bun(entryPoints) {
     const bundle = await Bun.build({
         entrypoints: entryPoints,
         external: modules,
-        define: defines,
+        define: defines
         // sourcemap: 'inline',
         // minify: true,
-    }).catch((e) => { throw new Error(e); });
+    }).catch(e => {
+        throw new Error(e);
+    });
 
     for (let index = 0; index < bundle.outputs.length; index++) {
         removeImports(await bundle.outputs[index].text(), entryPoints[index]);
@@ -94,7 +100,8 @@ function preloadDirs() {
 function removeImports(output, file) {
     const path = '../Client2/src/public/' + file.split('/').pop().replace('.ts', '.js');
 
-    output = output.split('\n')
+    output = output
+        .split('\n')
         .filter(line => !line.startsWith('import'))
         .filter(line => !line.startsWith('init_crypto')) // only needed for bun, crypto is an import in esbuild
         .join('\n');

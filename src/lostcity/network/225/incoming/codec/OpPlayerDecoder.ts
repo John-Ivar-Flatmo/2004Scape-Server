@@ -4,7 +4,10 @@ import ClientProt from '#lostcity/network/225/incoming/prot/ClientProt.js';
 import OpPlayer from '#lostcity/network/incoming/model/OpPlayer.js';
 
 export default class OpPlayerDecoder extends MessageDecoder<OpPlayer> {
-    constructor(readonly prot: ClientProt, readonly op: number) {
+    constructor(
+        readonly prot: ClientProt,
+        readonly op: number
+    ) {
         super();
     }
 
